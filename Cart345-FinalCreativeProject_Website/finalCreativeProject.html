@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+
+<!-- Inspired by this example from CodeCraftWorks: https://www.codecraftworks.com/blog/2019/12/09/hour-of-code-making-computer-music/ -->
+<!-- Background image from : https://background-tiles.com/overview/grey/1034.php  -->
+
+<html>
+
+  <head>
+    <title>Carole C. - Cart345 final project</title>
+
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.7.68/Tone.js"></script>
+      <link rel="stylesheet" type="text/css" href="css/finalCreativeProject.css">
+  </head>
+
+<script>
+
+  // Letter transforms when mouse hovers
+  $(document).ready(function(){
+    let word = $('p').text();
+    let hoverLetter = '';
+    for(let letter of word) {
+      hoverLetter+="<span class='h'>"+letter+"</span>";
+    }
+    $('p').html(hoverLetter);
+  })
+
+  // // End of sampler example
+
+  window.onload = function(){
+
+
+  // document.getElementById('myText').style.height="200px";
+
+  console.log("in script");
+  // Create Synth
+  const synth = new Tone.Synth();
+  // + new Tone.FeedbackDelay("8n", 0.5).toDestination();
+
+  // Set wave type
+  synth.oscillator.type = "sine";
+
+  // Connect to master output
+  synth.toMaster();
+
+  // Attatch synth variable to html element
+  const piano = document.getElementById("piano");
+
+  // Event Listener for clicking "on" piano
+  piano.addEventListener("mousedown", e => {
+    // Grabs note name from 'data-note'
+    synth.triggerAttack(e.target.dataset.note);
+  });
+
+  // Event Listener for clicking "off" piano
+  piano.addEventListener("mouseup", e => {
+   synth.triggerRelease();
+  });
+
+
+  // Add Keyboard Commands
+  document.addEventListener("keydown", e => {
+    switch(e.key) {
+       case "t":
+        return synth.triggerAttack("C4",0);
+      case "y":
+        return synth.triggerAttack("C#4",0);
+      case "u":
+        return synth.triggerAttack("D4",0);
+      case "i":
+        return synth.triggerAttack("D#4",0);
+      case "o":
+        return synth.triggerAttack("E4",0);
+      case "p":
+        return synth.triggerAttack("F4",0);
+      case "a":
+        return synth.triggerAttack("F#4",0);
+      case "s":
+        return synth.triggerAttack("G4",0);
+      case "d":
+        return synth.triggerAttack("G#4",0);
+      case "f":
+        return synth.triggerAttack("A4",0);
+      case "g":
+        return synth.triggerAttack("A#4",0);
+      case "h":
+        return synth.triggerAttack("B4",0);
+      case "j":
+        return synth.triggerAttack("C5",0);
+      case "k":
+        return synth.triggerAttack("C#5",0);
+      case "l":
+        return synth.triggerAttack("D5",0);
+      case "z":
+        return synth.triggerAttack("D#5",0);
+      case "x":
+        return synth.triggerAttack("E5",0);
+      case "c":
+        return synth.triggerAttack("F5",0);
+      case "v":
+        return synth.triggerAttack("F#5",0);
+      case "b":
+        return synth.triggerAttack("G5",0);
+      case "n":
+        return synth.triggerAttack("G#5",0);
+      case "m":
+        return synth.triggerAttack("A5",0);
+      case "q":
+        return synth.triggerAttack("A#5",0);
+      case "w":
+        return synth.triggerAttack("B5",0);
+      case "e":
+        return synth.triggerAttack("C6",0);
+      case "r":
+        return synth.triggerAttack("C#6",0);
+      default:
+        return;
+    }
+  });
+
+  document.addEventListener("keyup", e => {
+    console.log(e.key);
+    switch(e.key) {
+      case "t":
+      case "y":
+      case "u":
+      case "i":
+      case "o":
+      case "p":
+      case "a":
+      case "s":
+      case "d":
+      case "f":
+      case "g":
+      case "h":
+      case "j":
+      case "k":
+      case "l":
+      case "z":
+      case "x":
+      case "c":
+      case "v":
+      case "b":
+      case "n":
+      case "m":
+      case "q":
+      case "w":
+      case "e":
+      case "r":
+         synth.triggerRelease();
+    }
+  });
+
+  document.querySelector('button').addEventListener('click', async () => {
+  const player = new Tone.Player("sounds/metronome_sound02.wav").toDestination();
+  player.loop = true;
+  player.autostart = false;
+  // player.playbackRate = 1;
+  });
+}
+</script>
+
+  <body style="background-image: url('images/pattern_png.png');">
+
+    <div class="header">
+      <h2>The internet is an instrument</h2>
+    </div>
+
+    <!-- Container to write the text and listen to the melody of each key press -->
+<!-- USE TEXTAREA INSTEAD OF INPUT FOR THE NEW LINE (WHEN ENTER KEY IS PRESSED) TO WORK + AJUST THE HEIGHT/WIDTH -->
+    <audio loop id="audio" src="sounds/metronome_sound02.wav" preload="auto"></audio>
+    <h4> Type here:</h4>  <button onclick="player" type="button" class="metronome"> Start Metronome </button> <br>
+    <textarea type="text" id="myText" value="Write here:" size="100" height="100"> </textarea>
+
+<!-- Create a div for all seven keys -->
+<!-- C3 lower part of the piano + C4 middle part of the piano + C5 higher part of the piano -->
+<!-- C4 is current octave, C5 higher octave, C3 lower octave -->
+
+    <ul id="piano">
+      <li data-note="C4">T</li>
+      <li data-note="C#4">Y</li>
+      <li data-note="D4">U</li>
+      <li data-note="D#4">I</li>
+      <li data-note="E4">O</li>
+      <li data-note="F4">P</li>
+      <li data-note="F#4">A</li>
+      <li data-note="G4">S</li>
+      <li data-note="G#4">D</li>
+      <li data-note="A4">F</li>
+      <li data-note="A#4">G</li>
+      <li data-note="B4">H</li>
+      <li data-note="C5">J</li>
+      <li data-note="C#5">K</li>
+      <li data-note="D5">L</li>
+      <li data-note="D#5">Z</li>
+      <li data-note="E5">X</li>
+      <li data-note="F5">C</li>
+      <li data-note="F#5">V</li>
+      <li data-note="G5">B</li>
+      <li data-note="G#5">N</li>
+      <li data-note="A5">M</li>
+      <li data-note="A#5">Q</li>
+      <li data-note="B5">W</li>
+      <li data-note="C6">E</li>
+      <li data-note="C#6">R</li>
+    </ul>
+
+    <p> Select a song:</p>
+
+  <div class="flip-box">
+    <div class="flip-box-inner">
+      <div class="flip-box-front">
+        <h2>Twinkle twinkle :</h2>
+      </div>
+      <div class="flip-box-back">
+        <h2>U-U-F-F-H-H-F-S-S-A-A-O-O-U <br>
+            F-F-S-S-A-A-O-O-O-O-F-F-S-S-A-A-O <br>
+            U-U-F-F-H-H-F-S-S-A-A-O-O-U.
+        </h2>
+      </div>
+    </div>
+  </div>
+
+  <div class="flip-box">
+    <div class="flip-box-inner">
+      <div class="flip-box-front">
+        <h2>Jingle bells:</h2>
+      </div>
+      <div class="flip-box-back">
+        <h2>O-O-O O-O-O O-S-T-U-O<br>
+            P-P-P-O-O-O-U-U-U-O-U-S<br>
+            O-O-O O-O-O O-S-T-U-O<br>
+            P-P-P-O-O-O-S-S-P-U-T.
+        </h2>
+      </div>
+    </div>
+  </div>
+
+  <div class="flip-box">
+    <div class="flip-box-inner">
+      <div class="flip-box-front">
+        <h2>Rudolph the red-nose reindeer:</h2>
+      </div>
+      <div class="flip-box-back">
+        <h2>X-V-X-K-M-V-X X-V-X-V-X-M-N <br>
+            L-X-L-H-N-V-X X-V-X-V-X-V-K <br>
+            X-V-X-K-M-V-X X-V-X-V-X-M-N <br>
+            L-X-L-H-N-V-X X-V-X-V-X-W-M.
+        </h2>
+      </div>
+    </div>
+  </div>
+
+  </body>
+
+</html>
